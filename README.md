@@ -1,2 +1,2 @@
 # Django_RouteView
-Implement a auto-registered view
+Implement an auto-registered view
