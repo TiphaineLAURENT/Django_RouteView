@@ -3,13 +3,7 @@ from django.views.generic import View
 
 urlpatterns = []
 
-class Watcher(type(View)):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        if hasattr(self, "_add_route_"):
-            getattr(self, "_add_route_")(self)
-
-class RouteView(View, metaclass=Watcher):
+class RouteView(View):
     """
      A view able to register itself in the django urls patterns
 
@@ -20,10 +14,16 @@ class RouteView(View, metaclass=Watcher):
     route:str = None
     name:str = None
 
-    def _add_route_(self):
+    def __init_subclass__(cls) -> None:
+        cls._init_properties(cls)
+        cls._add_route_(cls)
+
+    def _init_properties(self) -> None:
         if self.route is None:
             raise ValueError("route property cannot be None")
-        if self.route is not None:
-            if self.name is None:
-                self.name = self.__name__
-            urlpatterns.append(path(self.route, self.as_view(), name=self.name))
+
+        if self.name is None:
+            self.name = self.__name__
+
+    def _add_route_(self):
+        urlpatterns.append(path(self.route, self.as_view(), name=self.name))
