@@ -17,10 +17,12 @@ class RouteView(View, metaclass=Watcher):
      name:str:optional The name of the view. Default to self.__name__
     """
 
-    route = None
-    name = None
+    route:str = None
+    name:str = None
 
     def _add_route_(self):
+        if self.route is None:
+            raise ValueError("route property cannot be None")
         if self.route is not None:
             if self.name is None:
                 self.name = self.__name__

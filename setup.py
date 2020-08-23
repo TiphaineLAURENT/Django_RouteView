@@ -14,7 +14,7 @@ from setuptools import setup
 
 setup(
     name='django_routeview',
-    version='1.0.0',
+    version='1.0.1',
     url='https://github.com/TiphaineLAURENT/Django_RouteView',
     license='BSD',
     author='Tiphaine LAURENT',
